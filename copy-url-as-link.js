@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy URL
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2.0
 // @description  copy URL of current browser tab as different markup such as orgmode, markdown ...
 // @author       Ice Zero
 // @license      MIT
