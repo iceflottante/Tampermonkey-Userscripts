@@ -38,12 +38,12 @@
     function provideSchemas() {
         return [
             {
-                name: 'orgmode',
-                getLinkMarkup: ({ title, url }) => `[[${url}][${title}]]`
+                name: 'markdown',
+                getLinkMarkup: ({ title, url }) => `[${title}](${url})`
             },
             {
-                name: 'markdown',
-                getLinkMarkup: ({ title, url }) => `[${title}(${url})]`
+                name: 'orgmode',
+                getLinkMarkup: ({ title, url }) => `[[${url}][${title}]]`
             },
             {
                 name: 'html',
