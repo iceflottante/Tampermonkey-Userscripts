@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Copy URL
 // @namespace    http://tampermonkey.net/
-// @version      0.2.0
-// @description  copy URL of current browser tab as different markup such as orgmode, markdown ...
+// @version      0.4.0
+// @description  Copy URL of current browser tab as different markup such as orgmode, markdown ...
 // @author       Ice Zero
 // @license      MIT
 // @match        http://*/*
@@ -10,29 +10,26 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        GM_registerMenuCommand
 // @grant        GM_setClipboard
+// @run-at       document-end
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    connect(providePageMeta(), provideSchemas()).forEach(behavior)
+    provideSchemas().forEach(behavior);
 
-    function behavior({ getMenuTip, getText }) {
-        GM_registerMenuCommand(getMenuTip(), () => GM_setClipboard(getText()))
+    function behavior({ name, getLinkMarkup }) {
+        GM_registerMenuCommand(`Copy URL as ${name} link`, () => {
+            getPageMeta().then(({ title, url }) => {
+                GM_setClipboard(getLinkMarkup({ title, url }));
+            });
+        });
     }
 
-    function connect(meta, schemas) {
-        return schemas.map(({ name, getLinkMarkup }) => ({ getMenuTip() { return `as ${name} link` }, getText() { return getLinkMarkup(meta) } }))
-    }
-
-    function providePageMeta() {
+    async function getPageMeta() {
         const title = document.title;
         const url = window.location.href;
-
-        return {
-            title,
-            url
-        }
+        return { title, url };
     }
 
     function provideSchemas() {
@@ -51,8 +48,8 @@
             },
             {
                 name: 'richtext',
-                getLinkMarkup: ({ title, url }) => `waiting for implementation`
+                getLinkMarkup: () => `waiting for implementation`
             }
-        ]
+        ];
     }
 })();
