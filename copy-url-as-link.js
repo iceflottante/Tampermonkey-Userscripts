@@ -36,7 +36,8 @@
         return [
             {
                 name: 'typst',
-                getLinkMarkup: ({ title, url }) => `#link("${url}", [${title}])`
+                // @see https://typst.app/docs/reference/model/link/
+                getLinkMarkup: ({ title, url }) => `#link("${url}")[${title}]`
             },
             {
                 name: 'markdown',
