@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy URL
 // @namespace    http://tampermonkey.net/
-// @version      0.4.0
+// @version      0.5.0
 // @description  Copy URL of current browser tab as different markup such as orgmode, markdown ...
 // @author       Ice Zero
 // @license      MIT
@@ -34,6 +34,10 @@
 
     function provideSchemas() {
         return [
+            {
+                name: 'typst',
+                getLinkMarkup: ({ title, url }) => `#link("${url}", [${title}])`
+            },
             {
                 name: 'markdown',
                 getLinkMarkup: ({ title, url }) => `[${title}](${url})`
