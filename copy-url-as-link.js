@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy URL
 // @namespace    http://tampermonkey.net/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Copy URL of current browser tab as different markup such as orgmode, markdown, typst and even RTF (rich text format or WYSIWYG) ...
 // @author       Ice Zero
 // @license      MIT
@@ -20,12 +20,12 @@
 
     provideSchemas().forEach(behavior);
 
-    function behavior({ name, type = 'text', getLinkMarkup }) {
+    function behavior({ name, type = 'text', getLinkMarkup, shortcut }) {
         GM_registerMenuCommand(`Copy URL as ${name} link`, () => {
             getPageMeta().then(({ title, url }) => {
                 GM_setClipboard(getLinkMarkup({ title, url }), type);
             });
-        });
+        }, shortcut);
     }
 
     async function getPageMeta() {
@@ -40,24 +40,31 @@
                 // @see https://www.tampermonkey.net/documentation.php#api:GM_setClipboard
                 name: 'richtext',
                 type: 'html',
-                getLinkMarkup: ({title, url}) => `<a href="${url}">${title}</a>`
+                getLinkMarkup: ({title, url}) => `<a href="${url}">${title}</a>`,
+                // @see https://www.tampermonkey.net/documentation.php?locale=en#api:GM_registerMenuCommand
+                // @desc should config shortcut for call Tampermonkey in `chrome://extensions/shortcuts` first
+                shortcut: 'r',
             },
             {
                 name: 'markdown',
-                getLinkMarkup: ({ title, url }) => `[${title}](${url})`
+                getLinkMarkup: ({ title, url }) => `[${title}](${url})`,
+                shortcut: 'm',
             },
             {
                 name: 'html',
-                getLinkMarkup: ({ title, url }) => `<a href="${url}">${title}</a>`
+                getLinkMarkup: ({ title, url }) => `<a href="${url}">${title}</a>`,
+                shortcut: 'h',
             },
             {
                 name: 'orgmode',
-                getLinkMarkup: ({ title, url }) => `[[${url}][${title}]]`
+                getLinkMarkup: ({ title, url }) => `[[${url}][${title}]]`,
+                shortcut: 'o',
             },
             {
                 name: 'typst',
                 // @see https://typst.app/docs/reference/model/link/
-                getLinkMarkup: ({ title, url }) => `#link("${url}")[${title}]`
+                getLinkMarkup: ({ title, url }) => `#link("${url}")[${title}]`,
+                shortut: 't',
             },
         ];
     }
