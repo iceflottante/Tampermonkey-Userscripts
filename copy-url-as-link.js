@@ -37,6 +37,16 @@
     function provideSchemas() {
         return [
             {
+                name: 'title',
+                getLinkMarkup: ({title}) => `${title}`,
+                shortcut: 'a',
+            },
+            {
+                name: 'url',
+                getLinkMarkup: ({url}) => `${url}`,
+                shortcut: 'u',
+            },
+            {
                 // @see https://www.tampermonkey.net/documentation.php#api:GM_setClipboard
                 name: 'richtext',
                 type: 'html',
