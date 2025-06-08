@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy URL
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Copy URL of current browser tab as different markup such as orgmode, markdown, typst and even RTF (rich text format or WYSIWYG) ...
 // @author       Ice Zero
 // @license      MIT
@@ -39,12 +39,10 @@
             {
                 name: 'title',
                 getLinkMarkup: ({title}) => `${title}`,
-                shortcut: 'a',
             },
             {
                 name: 'url',
                 getLinkMarkup: ({url}) => `${url}`,
-                shortcut: 'u',
             },
             {
                 // @see https://www.tampermonkey.net/documentation.php#api:GM_setClipboard
@@ -75,6 +73,11 @@
                 // @see https://typst.app/docs/reference/model/link/
                 getLinkMarkup: ({ title, url }) => `#link("${url}")[${title}]`,
                 shortut: 't',
+            },
+            {
+                name: 'tsdoc',
+                // @see https://tsdoc.org/pages/tags/link/
+                getLinkMarkup: ({ title, url }) => `{@link ${url} | ${title}}`,
             },
         ];
     }
